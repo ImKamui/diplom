@@ -25,20 +25,54 @@ public class FirstPageContent extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        welcomeLabel = new javax.swing.JLabel();
         installPostgresButton = new javax.swing.JButton();
         howToConnectButton = new javax.swing.JButton();
+        demoDBButton = new javax.swing.JButton();
+        postgresForAppButton = new javax.swing.JButton();
+        settingPostgresButton = new javax.swing.JButton();
+        pgAdminButton = new javax.swing.JButton();
+        moreOptionsButton = new javax.swing.JButton();
+        nextPageButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Обучение Postgress");
+        setLocation(new java.awt.Point(550, 150));
+        setName("firstPageContentFrame"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(515, 500));
+        setSize(new java.awt.Dimension(515, 500));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("<html>Добро пожаловать!\n<br/>Выберите пункт, который хотите изучить или повторить:</html>");
+        welcomeLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        welcomeLabel.setText("<html>Добро пожаловать!\n<br/>Выберите пункт, который хотите изучить или повторить:</html>");
 
         installPostgresButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         installPostgresButton.setText("Установка PostgreSQL");
+        installPostgresButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                installPostgresButtonActionPerformed(evt);
+            }
+        });
 
         howToConnectButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         howToConnectButton.setText("Подключение к серверу");
+
+        demoDBButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        demoDBButton.setText("Демо база данных");
+
+        postgresForAppButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        postgresForAppButton.setText("PostgreSQL для приложений");
+
+        settingPostgresButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        settingPostgresButton.setText("Настройка PostgreSQL");
+
+        pgAdminButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        pgAdminButton.setText("Работа с графическим интерфейсов PostgreSQL - pgAdmin");
+
+        moreOptionsButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        moreOptionsButton.setText("Дополнительные возможности PostgreSQL");
+
+        nextPageButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        nextPageButton.setText("Следующая страница >>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -47,25 +81,51 @@ public class FirstPageContent extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
+                    .addComponent(welcomeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                     .addComponent(installPostgresButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(howToConnectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(howToConnectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(demoDBButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(postgresForAppButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(settingPostgresButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pgAdminButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(moreOptionsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(nextPageButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(installPostgresButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(howToConnectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(360, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(demoDBButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(postgresForAppButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(settingPostgresButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pgAdminButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(moreOptionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addComponent(nextPageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void installPostgresButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_installPostgresButtonActionPerformed
+        this.dispose();
+        InstallPostgresForm installPostgres = new InstallPostgresForm();
+        installPostgres.setVisible(true);
+    }//GEN-LAST:event_installPostgresButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,8 +163,14 @@ public class FirstPageContent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton demoDBButton;
     private javax.swing.JButton howToConnectButton;
     private javax.swing.JButton installPostgresButton;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton moreOptionsButton;
+    private javax.swing.JButton nextPageButton;
+    private javax.swing.JButton pgAdminButton;
+    private javax.swing.JButton postgresForAppButton;
+    private javax.swing.JButton settingPostgresButton;
+    private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }
