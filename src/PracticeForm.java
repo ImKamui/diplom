@@ -8,10 +8,12 @@
  * @author danil
  */
 
-import org.josql.Query;
-import org.josql.QueryResults;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.*;
+import java.io.File;
 
 public class PracticeForm extends javax.swing.JFrame {
 
@@ -38,7 +40,7 @@ public class PracticeForm extends javax.swing.JFrame {
         createTableButton = new javax.swing.JButton();
         useQueryButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        outputLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(550, 150));
@@ -58,9 +60,19 @@ public class PracticeForm extends javax.swing.JFrame {
 
         createTableButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         createTableButton.setText("Создать таблицы");
+        createTableButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createTableButtonActionPerformed(evt);
+            }
+        });
 
         useQueryButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         useQueryButton.setText("Применить запрос");
+        useQueryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                useQueryButtonActionPerformed(evt);
+            }
+        });
 
         backButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         backButton.setText("<< Назад");
@@ -70,7 +82,7 @@ public class PracticeForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        outputLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,7 +96,7 @@ public class PracticeForm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(createTableButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                        .addComponent(outputLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(useQueryButton))
                     .addGroup(layout.createSequentialGroup()
@@ -103,10 +115,9 @@ public class PracticeForm extends javax.swing.JFrame {
                 .addComponent(QueryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(createTableButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                        .addComponent(useQueryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(outputLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(createTableButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(useQueryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -123,9 +134,135 @@ public class PracticeForm extends javax.swing.JFrame {
         backToChoise.setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
 
+    private void createTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTableButtonActionPerformed
+        Connect();
+    }//GEN-LAST:event_createTableButtonActionPerformed
+
+    private void useQueryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useQueryButtonActionPerformed
+        UseQuery();
+    }//GEN-LAST:event_useQueryButtonActionPerformed
+
+    public static void Connect()
+    {
+        Connection conn = null;
+        Statement stmt = null;
+        try
+        {
+            Class.forName("org.sqlite.JDBC");
+            conn = DriverManager.getConnection("jdbc:sqlite:dbmsteach.db");
+            outputLabel.setText("Создание базы данных...");
+            stmt = conn.createStatement();
+            String createAuthorTable = "CREATE TABLE IF NOT EXISTS Authors " + 
+                    "(AuthorID INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+                    "FirstName TEXT NOT NULL, " + 
+                    "LastName TEXT NOT NULL, " + 
+                    "BirthDate TEXT, " + 
+                    "Country TEXT NOT NULL)";
+            stmt.executeUpdate(createAuthorTable);
+            String createBookTable = "CREATE TABLE IF NOT EXISTS Books " + 
+                    "(BookID INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+                    "Title TEXT NOT NULL, " + 
+                    "AuthorID INTEGER, " +
+                    "GenreID INTEGER, " + 
+                    "PublisherID INTEGER, " + 
+                    "YearPublished TEXT NOT NULL, " + 
+                    "ISBN INTEGER NOT NULL, "
+                    + "Quantity INTEGER, "
+                    + "FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID), "
+                    + "FOREIGN KEY (GenreID) REFERENCES Genres(GenreID), "
+                    + "FOREIGN KEY (PublisherID) REFERENCES Publisher(PublisherID))";
+            stmt.executeUpdate(createBookTable);
+            String createGenreTable = "CREATE TABLE IF NOT EXISTS Genres "
+                    + "(GenreID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "Name TEXT NOT NULL)";
+            stmt.executeUpdate(createGenreTable);
+            String createReaderTable = "CREATE TABLE IF NOT EXISTS Reader"
+                    + "(ReaderID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "FirstName TEXT NOT NULL, "
+                    + "LastName TEXT NOT NULL, "
+                    + "Adress TEXT NOT NULL, "
+                    + "PhoneNumber TEXT NOT NULL, "
+                    + "Email TEXT NOT NULL)";
+            stmt.executeUpdate(createReaderTable);
+            String bookLoanTable = "CREATE TABLE IF NOT EXISTS BookLoan "
+                    + "(LoanID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "BookID INTEGER, "
+                    + "ReaderID INTEGER, "
+                    + "LoanDate TEXT NOT NULL, "
+                    + "ReturnDate TEXT, "
+                    + "Status TEXT NOT NULL, "
+                    + "FOREIGN KEY (BookID) REFERENCES Books(BookID),"
+                    + "FOREIGN KEY (ReaderID) REFERENCES Readers(ReaderID) )";
+            stmt.executeUpdate(bookLoanTable);
+            String createPublisherTable = "CREATE TABLE IF NOT EXISTS Publisher"
+                    + "(PublisherID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "Name TEXT NOT NULL, "
+                    + "Adress TEXT NOT NULL, "
+                    + "PhoneNumber TEXT NOT NULL)";
+            stmt.executeUpdate(createPublisherTable);
+            stmt.close();
+            conn.close();
+        }
+        catch (Exception e)
+        {
+            outputLabel.setText("Ошибка, " + e.getClass().getName() + ": " + e.getMessage());
+            return;
+        }
+        outputLabel.setText("База данных создана");
+    }
+    
+    public static void UseQuery()
+    {
+        String query = QueryTextArea.getText();
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:dbmsteach.db");
+             Statement stmt = connection.createStatement()) 
+        {
+            boolean hasResult = stmt.execute(query);
+            StringBuilder output = new StringBuilder();
+            
+            if (hasResult)
+            {
+                try (ResultSet resultSet = stmt.getResultSet())
+                {
+                    ResultSetMetaData metaData = resultSet.getMetaData();
+                    int columnCount = metaData.getColumnCount();
+                    
+                    for (int i = 1; i <= columnCount; i++)
+                    {
+                        output.append(metaData.getColumnName(i)).append("\t");
+                    }
+                    output.append("\n");
+                    
+                    while (resultSet.next())
+                    {
+                        for (int i = 1; i <= columnCount; i++)
+                        {
+                            output.append(resultSet.getString(i)).append("\t");
+                        }
+                        output.append("\n");
+                    }
+                }
+            }
+            else
+            {
+                int updateCount = stmt.getUpdateCount();
+                output.append("Строк затронуто: ").append(updateCount);
+            }
+            
+            resultQueryTextArea.setText(output.toString());
+        }
+        catch (SQLException e)
+        {
+            resultQueryTextArea.setText("Ошибка: " + e.getMessage());
+        }
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -160,12 +297,12 @@ public class PracticeForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane QueryScrollPane;
-    private javax.swing.JTextArea QueryTextArea;
+    private static javax.swing.JTextArea QueryTextArea;
     private javax.swing.JButton backButton;
     private javax.swing.JButton createTableButton;
-    private javax.swing.JLabel jLabel1;
+    private static javax.swing.JLabel outputLabel;
     private javax.swing.JScrollPane resultQueryScrollPane;
-    private javax.swing.JTextArea resultQueryTextArea;
+    private static javax.swing.JTextArea resultQueryTextArea;
     private javax.swing.JButton useQueryButton;
     // End of variables declaration//GEN-END:variables
 }
