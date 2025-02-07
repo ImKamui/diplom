@@ -30,7 +30,7 @@ public class FirstPageContent extends javax.swing.JFrame {
         practiceButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Обучение Postgress");
+        setTitle("Обучение СУБД");
         setLocation(new java.awt.Point(550, 150));
         setName("firstPageContentFrame"); // NOI18N
         setSize(new java.awt.Dimension(515, 500));
@@ -42,7 +42,7 @@ public class FirstPageContent extends javax.swing.JFrame {
         theoryButton.setText("Теория");
 
         practiceButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        practiceButton.setText("Практические задания");
+        practiceButton.setText("Практика");
         practiceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 practiceButtonActionPerformed(evt);

@@ -13,7 +13,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.*;
-import java.io.File;
 
 public class PracticeForm extends javax.swing.JFrame {
 
@@ -43,9 +42,11 @@ public class PracticeForm extends javax.swing.JFrame {
         outputLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Практический раздел");
         setLocation(new java.awt.Point(550, 150));
 
         resultQueryTextArea.setColumns(20);
+        resultQueryTextArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         resultQueryTextArea.setRows(5);
         resultQueryTextArea.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -55,6 +56,7 @@ public class PracticeForm extends javax.swing.JFrame {
         resultQueryScrollPane.setViewportView(resultQueryTextArea);
 
         QueryTextArea.setColumns(20);
+        QueryTextArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         QueryTextArea.setRows(5);
         QueryScrollPane.setViewportView(QueryTextArea);
 
@@ -219,6 +221,7 @@ public class PracticeForm extends javax.swing.JFrame {
         {
             boolean hasResult = stmt.execute(query);
             StringBuilder output = new StringBuilder();
+            String toLabel;
             
             if (hasResult)
             {
@@ -246,7 +249,8 @@ public class PracticeForm extends javax.swing.JFrame {
             else
             {
                 int updateCount = stmt.getUpdateCount();
-                output.append("Строк затронуто: ").append(updateCount);
+                toLabel = "Строк добавлено: " + updateCount;
+                outputLabel.setText(toLabel);
             }
             
             resultQueryTextArea.setText(output.toString());
