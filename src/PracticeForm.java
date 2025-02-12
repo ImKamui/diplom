@@ -132,7 +132,7 @@ public class PracticeForm extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         this.dispose();
-        FirstPageContent backToChoise = new FirstPageContent();
+        FirstAppPageForm backToChoise = new FirstAppPageForm();
         backToChoise.setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
 

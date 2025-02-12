@@ -7,12 +7,12 @@
  *
  * @author danil
  */
-public class FirstPageContent extends javax.swing.JFrame {
+public class FirstContentForm extends javax.swing.JFrame {
 
     /**
-     * Creates new form FirstPageContent
+     * Creates new form FirstContentForm
      */
-    public FirstPageContent() {
+    public FirstContentForm() {
         initComponents();
     }
 
@@ -25,27 +25,25 @@ public class FirstPageContent extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        welcomeLabel = new javax.swing.JLabel();
-        theoryButton = new javax.swing.JButton();
-        practiceButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
+        firstModule = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Обучение СУБД");
         setLocation(new java.awt.Point(550, 150));
-        setName("firstPageContentFrame"); // NOI18N
-        setSize(new java.awt.Dimension(515, 500));
 
-        welcomeLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        welcomeLabel.setText("<html>Добро пожаловать! <br/>Выберите раздел:</html>");
-
-        theoryButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        theoryButton.setText("Теория");
-
-        practiceButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        practiceButton.setText("Практика");
-        practiceButton.addActionListener(new java.awt.event.ActionListener() {
+        backButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        backButton.setText("<< Назад");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                practiceButtonActionPerformed(evt);
+                backButtonActionPerformed(evt);
+            }
+        });
+
+        firstModule.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        firstModule.setText("Модуль 1. Создание базы данных");
+        firstModule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firstModuleActionPerformed(evt);
             }
         });
 
@@ -56,31 +54,36 @@ public class FirstPageContent extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(welcomeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
-                    .addComponent(theoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(practiceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(firstModule, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(backButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(backButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(theoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(practiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(firstModule, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(421, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void practiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_practiceButtonActionPerformed
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         this.dispose();
-        PracticeForm practice = new PracticeForm();
-        practice.setVisible(true);
-    }//GEN-LAST:event_practiceButtonActionPerformed
+        FirstAppPageForm backToBegin = new FirstAppPageForm();
+        backToBegin.setVisible(true);
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    private void firstModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstModuleActionPerformed
+        this.dispose();
+        FirstModuleForm firstModule = new FirstModuleForm();
+        firstModule.setVisible(true);
+    }//GEN-LAST:event_firstModuleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -99,27 +102,26 @@ public class FirstPageContent extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FirstPageContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FirstContentForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FirstPageContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FirstContentForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FirstPageContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FirstContentForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FirstPageContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FirstContentForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FirstPageContent().setVisible(true);
+                new FirstContentForm().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton practiceButton;
-    private javax.swing.JButton theoryButton;
-    private javax.swing.JLabel welcomeLabel;
+    private javax.swing.JButton backButton;
+    private javax.swing.JButton firstModule;
     // End of variables declaration//GEN-END:variables
 }
