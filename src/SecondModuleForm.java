@@ -33,8 +33,12 @@ public class SecondModuleForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(500, 150));
 
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(728, 1125));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(728, 1123));
+
         firstTheoryLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        firstTheoryLabel.setText("<html>\n\nВ реляционных СУБД данные представлены в виде <b>таблиц</b>. <br>Таблицы в свою очередь состоят из <b>столбцов</b> и <b>строк</b>.\n<br><b>Столбцы</b> определяют <b>структуру таблицы</b>, а <b>в строках</b> уже хранится <b>информация</b>.\n<br><br>Выберем предметную область - библиотека и создадим таблицу Books.\n<br>Тогда таблица будет иметь следующие поля: \n<br> <b>BookID</b> - уникальный идентификационный номер книги. Это поле будет являться первичным ключом, о которых мы поговорим далее.\n<br> <b>Title</b> - название книги. В этом поле мы будем записывать название книги. Типом данных этого поля будет являться TEXT - стандартный тип данных в СУБД PostgreSQL.\n<br> <b>AuthorID</b> - уникальный идентификационный номер автора книги. Это поле будет являться внешним ключом, о которых мы поговорим далее.\n<br> <b>GenreID</b> - уникальный идентификационный номер жанра книги. Это поле также будет являться внешним ключом, как и поле AuthorID.\n<br> <b>PublisherID</b> - уникальнйы идентификационный номер издательства. Аналогично полю AuthorID - является внешним ключом.\n<br> <b>YearPublished</b> - дата публикации книги. Это поле будет иметь тип данных DATE.\n<br> <b>ISBN</b> - уникальный серийный номер книги. Это поле также, как BookID будет являться уникальным, однако не будет являться первичным ключом. Тип поля - INTEGER.\n<br> <b>Quantity</b> - количество данных книг в библиотеке. Это поле будет иметь тип данных - INTEGER. Аналогично полю ISBN.\n\n</html>");
+        firstTheoryLabel.setText("<html>\n\nВ реляционных СУБД данные представлены в виде <b>таблиц</b>. <br>Таблицы в свою очередь состоят из <b>столбцов</b> и <b>строк</b>.\n<br><b>Столбцы</b> определяют <b>структуру таблицы</b>, а <b>в строках</b> уже хранится <b>информация</b>.\n<br><br>Выберем предметную область - библиотека и создадим таблицу Books.\n<br>Тогда таблица будет иметь следующие поля: \n<br> <b>BookID</b> - уникальный идентификационный номер книги. Это поле будет являться первичным ключом, о которых мы поговорим далее.\n<br> <b>Title</b> - название книги. В этом поле мы будем записывать название книги. Типом данных этого поля будет являться TEXT - стандартный тип данных в СУБД PostgreSQL.\n<br> <b>AuthorID</b> - уникальный идентификационный номер автора книги. Это поле будет являться внешним ключом, о которых мы поговорим далее.\n<br> <b>GenreID</b> - уникальный идентификационный номер жанра книги. Это поле также будет являться внешним ключом, как и поле AuthorID.\n<br> <b>PublisherID</b> - уникальнйы идентификационный номер издательства. Аналогично полю AuthorID - является внешним ключом.\n<br> <b>YearPublished</b> - дата публикации книги. Это поле будет иметь тип данных DATE.\n<br> <b>ISBN</b> - уникальный серийный номер книги. Это поле также, как BookID будет являться уникальным, однако не будет являться первичным ключом. Тип поля - INTEGER.\n<br> <b>Quantity</b> - количество данных книг в библиотеке. Это поле будет иметь тип данных, аналогичный полю ISBN - INTEGER.\n\n<br><br>Для создания таблицы используестя команда CREATE TABLE. Чтобы создать нашу таблицу Books нам необходимо написать следующую команду:\n<br><b>CREATE TABLE Books (BookID INTEGER PRIMARY KEY AUTOINCREMENT,\n<br>Title TEXT NOT NULL, \n<br>AuthorID INTEGER, \n<br>GenreID INTEGER, \n<br>PublisherID INTEGER, \n<br>YearPublished TEXT NOT NULL, \n<br>ISBN INTEGER NOT NULL, \n<br>Quantity INTEGER);</b>\n\n</html>");
 
         createTableLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         createTableLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -44,7 +48,7 @@ public class SecondModuleForm extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(createTableLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+            .addComponent(createTableLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
             .addComponent(firstTheoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -52,8 +56,8 @@ public class SecondModuleForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(createTableLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(firstTheoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 24, Short.MAX_VALUE))
+                .addComponent(firstTheoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 409, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -62,11 +66,11 @@ public class SecondModuleForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
         );
 
         pack();

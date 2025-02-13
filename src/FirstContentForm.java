@@ -26,7 +26,8 @@ public class FirstContentForm extends javax.swing.JFrame {
     private void initComponents() {
 
         backButton = new javax.swing.JButton();
-        firstModule = new javax.swing.JButton();
+        firstModuleButton = new javax.swing.JButton();
+        secondModuleButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(550, 150));
@@ -39,11 +40,19 @@ public class FirstContentForm extends javax.swing.JFrame {
             }
         });
 
-        firstModule.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        firstModule.setText("Модуль 1. Создание базы данных");
-        firstModule.addActionListener(new java.awt.event.ActionListener() {
+        firstModuleButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        firstModuleButton.setText("Модуль 1. Создание базы данных");
+        firstModuleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                firstModuleActionPerformed(evt);
+                firstModuleButtonActionPerformed(evt);
+            }
+        });
+
+        secondModuleButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        secondModuleButton.setText("Модуль 2. Создание таблицы");
+        secondModuleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                secondModuleButtonActionPerformed(evt);
             }
         });
 
@@ -54,10 +63,11 @@ public class FirstContentForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(firstModule, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(firstModuleButton, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(secondModuleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -66,8 +76,10 @@ public class FirstContentForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(backButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(firstModule, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(421, Short.MAX_VALUE))
+                .addComponent(firstModuleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(secondModuleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(375, Short.MAX_VALUE))
         );
 
         pack();
@@ -79,11 +91,17 @@ public class FirstContentForm extends javax.swing.JFrame {
         backToBegin.setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
 
-    private void firstModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstModuleActionPerformed
+    private void firstModuleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstModuleButtonActionPerformed
         this.dispose();
         FirstModuleForm firstModule = new FirstModuleForm();
         firstModule.setVisible(true);
-    }//GEN-LAST:event_firstModuleActionPerformed
+    }//GEN-LAST:event_firstModuleButtonActionPerformed
+
+    private void secondModuleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_secondModuleButtonActionPerformed
+        this.dispose();
+        SecondModuleForm secondModule = new SecondModuleForm();
+        secondModule.setVisible(true);
+    }//GEN-LAST:event_secondModuleButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -122,6 +140,7 @@ public class FirstContentForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
-    private javax.swing.JButton firstModule;
+    private javax.swing.JButton firstModuleButton;
+    private javax.swing.JButton secondModuleButton;
     // End of variables declaration//GEN-END:variables
 }
