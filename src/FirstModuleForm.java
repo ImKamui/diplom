@@ -30,12 +30,22 @@ public class FirstModuleForm extends javax.swing.JFrame {
         tablesLabel = new javax.swing.JLabel();
         firstTheoryLabel = new javax.swing.JLabel();
         firstPictureLabel = new javax.swing.JLabel();
+        toCreateDBLabel = new javax.swing.JLabel();
+        secondScreenshotLabel = new javax.swing.JLabel();
+        afterCreateDBLabel = new javax.swing.JLabel();
+        thridScreenLabel = new javax.swing.JLabel();
+        afterSuccessCreateDBLabel = new javax.swing.JLabel();
+        nextModuleButton = new javax.swing.JButton();
+        backToFirstPageButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(550, 150));
+        setPreferredSize(new java.awt.Dimension(740, 540));
         setSize(new java.awt.Dimension(0, 0));
 
-        FirstModelPanel.setPreferredSize(new java.awt.Dimension(500, 10000));
+        FirstModelScrollPane.setPreferredSize(new java.awt.Dimension(502, 500));
+
+        FirstModelPanel.setPreferredSize(new java.awt.Dimension(502, 500));
 
         tablesLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         tablesLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -43,18 +53,62 @@ public class FirstModuleForm extends javax.swing.JFrame {
         tablesLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         firstTheoryLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        firstTheoryLabel.setText("<html>Перед созданием базы данных вам необходимо запустить консоль psql (Пуск->Поиск->SQL Shell (psql)). <br><br>Для создания базы данных необходимо написать следующую команду:  <br>CREATE TABLE test; где test - название базы данных.</html>");
+        firstTheoryLabel.setText("<html>Перед созданием базы данных вам необходимо запустить консоль psql (Пуск->Поиск->SQL Shell (psql)).</html>");
 
         firstPictureLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         firstPictureLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/photo_5285005915868753642_x.jpg"))); // NOI18N
+
+        toCreateDBLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        toCreateDBLabel.setText("<html>Для создания базы данных необходимо написать следующую команду:  <br>CREATE DATABASE test; <br>где CREATE DATABASE - команда для создания таблицы; test - название таблицы.</html>");
+
+        secondScreenshotLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        secondScreenshotLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/5287490674708576736.jpg"))); // NOI18N
+
+        afterCreateDBLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        afterCreateDBLabel.setText("После создания базы данных можно увидеть сообщение о том, что команда сработала - CREATE DATABASE.");
+
+        thridScreenLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        thridScreenLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/5287490674708576738.jpg"))); // NOI18N
+
+        afterSuccessCreateDBLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        afterSuccessCreateDBLabel.setText("После успешного создания базы данных можно перейти к созданию таблиц (Модуль 2. Создание таблиц).");
+
+        nextModuleButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        nextModuleButton.setText("Перейти к тесту по Модуль 1. Создания базы данных");
+        nextModuleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextModuleButtonActionPerformed(evt);
+            }
+        });
+
+        backToFirstPageButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        backToFirstPageButton.setText("Вернуться к оглавлению");
+        backToFirstPageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backToFirstPageButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout FirstModelPanelLayout = new javax.swing.GroupLayout(FirstModelPanel);
         FirstModelPanel.setLayout(FirstModelPanelLayout);
         FirstModelPanelLayout.setHorizontalGroup(
             FirstModelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(tablesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(firstTheoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+            .addComponent(firstTheoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
             .addComponent(firstPictureLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(toCreateDBLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(secondScreenshotLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(afterCreateDBLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(thridScreenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(FirstModelPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(FirstModelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(afterSuccessCreateDBLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(FirstModelPanelLayout.createSequentialGroup()
+                        .addComponent(backToFirstPageButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nextModuleButton)
+                        .addContainerGap())))
         );
         FirstModelPanelLayout.setVerticalGroup(
             FirstModelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -62,10 +116,24 @@ public class FirstModuleForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(tablesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(firstTheoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(firstTheoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(firstPictureLabel)
-                .addGap(10698, 10698, 10698))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toCreateDBLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(secondScreenshotLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(afterCreateDBLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(thridScreenLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(afterSuccessCreateDBLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(FirstModelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backToFirstPageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nextModuleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10622, 10622, 10622))
         );
 
         FirstModelScrollPane.setViewportView(FirstModelPanel);
@@ -74,15 +142,27 @@ public class FirstModuleForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(FirstModelScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
+            .addComponent(FirstModelScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(FirstModelScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+            .addComponent(FirstModelScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backToFirstPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToFirstPageButtonActionPerformed
+        this.dispose();
+        FirstContentForm backToFirstPage = new FirstContentForm();
+        backToFirstPage.setVisible(true);
+    }//GEN-LAST:event_backToFirstPageButtonActionPerformed
+
+    private void nextModuleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextModuleButtonActionPerformed
+        this.dispose();
+        FirstTestForm firstTest = new FirstTestForm();
+        firstTest.setVisible(true);
+    }//GEN-LAST:event_nextModuleButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -122,8 +202,15 @@ public class FirstModuleForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FirstModelPanel;
     private javax.swing.JScrollPane FirstModelScrollPane;
+    private javax.swing.JLabel afterCreateDBLabel;
+    private javax.swing.JLabel afterSuccessCreateDBLabel;
+    private javax.swing.JButton backToFirstPageButton;
     private javax.swing.JLabel firstPictureLabel;
     private javax.swing.JLabel firstTheoryLabel;
+    private javax.swing.JButton nextModuleButton;
+    private javax.swing.JLabel secondScreenshotLabel;
     private javax.swing.JLabel tablesLabel;
+    private javax.swing.JLabel thridScreenLabel;
+    private javax.swing.JLabel toCreateDBLabel;
     // End of variables declaration//GEN-END:variables
 }
