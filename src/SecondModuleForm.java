@@ -1,3 +1,11 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -29,13 +37,23 @@ public class SecondModuleForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         firstTheoryLabel = new javax.swing.JLabel();
         createTableLabel = new javax.swing.JLabel();
+        trySecondModuleJScrollPane = new javax.swing.JScrollPane();
+        trySecondModuleTextArea = new javax.swing.JTextArea();
+        tryItLabel = new javax.swing.JLabel();
+        resultTextLabel = new javax.swing.JLabel();
+        resultLabel = new javax.swing.JLabel();
+        insertSQLLabel = new javax.swing.JLabel();
+        createTableButton = new javax.swing.JButton();
+        toSecondTestButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(500, 150));
+        setPreferredSize(new java.awt.Dimension(751, 510));
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(728, 1125));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(804, 1550));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(728, 1123));
+        jPanel1.setPreferredSize(new java.awt.Dimension(700, 1200));
 
         firstTheoryLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         firstTheoryLabel.setText("<html>\n\nВ реляционных СУБД данные представлены в виде <b>таблиц</b>. <br>Таблицы в свою очередь состоят из <b>столбцов</b> и <b>строк</b>.\n<br><b>Столбцы</b> определяют <b>структуру таблицы</b>, а <b>в строках</b> уже хранится <b>информация</b>.\n<br><br>Выберем предметную область - библиотека и создадим таблицу Books.\n<br>Тогда таблица будет иметь следующие поля: \n<br> <b>BookID</b> - уникальный идентификационный номер книги. Это поле будет являться первичным ключом, о которых мы поговорим далее.\n<br> <b>Title</b> - название книги. В этом поле мы будем записывать название книги. Типом данных этого поля будет являться TEXT - стандартный тип данных в СУБД PostgreSQL.\n<br> <b>AuthorID</b> - уникальный идентификационный номер автора книги. Это поле будет являться внешним ключом, о которых мы поговорим далее.\n<br> <b>GenreID</b> - уникальный идентификационный номер жанра книги. Это поле также будет являться внешним ключом, как и поле AuthorID.\n<br> <b>PublisherID</b> - уникальнйы идентификационный номер издательства. Аналогично полю AuthorID - является внешним ключом.\n<br> <b>YearPublished</b> - дата публикации книги. Это поле будет иметь тип данных DATE.\n<br> <b>ISBN</b> - уникальный серийный номер книги. Это поле также, как BookID будет являться уникальным, однако не будет являться первичным ключом. Тип поля - INTEGER.\n<br> <b>Quantity</b> - количество данных книг в библиотеке. Это поле будет иметь тип данных, аналогичный полю ISBN - INTEGER.\n\n<br><br>Для создания таблицы используестя команда CREATE TABLE. Чтобы создать нашу таблицу Books нам необходимо написать следующую команду:\n<br><b>CREATE TABLE Books (BookID INTEGER PRIMARY KEY AUTOINCREMENT,\n<br>Title TEXT NOT NULL, \n<br>AuthorID INTEGER, \n<br>GenreID INTEGER, \n<br>PublisherID INTEGER, \n<br>YearPublished TEXT NOT NULL, \n<br>ISBN INTEGER NOT NULL, \n<br>Quantity INTEGER);</b>\n\n</html>");
@@ -44,11 +62,61 @@ public class SecondModuleForm extends javax.swing.JFrame {
         createTableLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         createTableLabel.setText("Создание таблицы");
 
+        trySecondModuleTextArea.setColumns(20);
+        trySecondModuleTextArea.setRows(5);
+        trySecondModuleJScrollPane.setViewportView(trySecondModuleTextArea);
+
+        tryItLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tryItLabel.setText("Попробуйте создать свою первую таблицу:");
+
+        resultTextLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        resultTextLabel.setText("Результат:");
+
+        resultLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        insertSQLLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        insertSQLLabel.setText("Введите SQL команду в это поле:");
+
+        createTableButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        createTableButton.setText("Создать таблицу");
+        createTableButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createTableButtonActionPerformed(evt);
+            }
+        });
+
+        toSecondTestButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        toSecondTestButton.setText("Перейти к тесту по Модуль 2. Создание таблиц");
+
+        backButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        backButton.setText("Вернуться к оглавлению");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(createTableLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
+            .addComponent(createTableLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
+            .addComponent(trySecondModuleJScrollPane, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(tryItLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(resultTextLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(insertSQLLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(resultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(createTableButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(backButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(toSecondTestButton)))
+                .addContainerGap())
             .addComponent(firstTheoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -56,8 +124,24 @@ public class SecondModuleForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(createTableLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(firstTheoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 409, Short.MAX_VALUE))
+                .addComponent(firstTheoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(tryItLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(resultTextLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(insertSQLLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(trySecondModuleJScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(createTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(toSecondTestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -66,16 +150,145 @@ public class SecondModuleForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void createTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTableButtonActionPerformed
+        Connect();
+        UseQuery();
+        resultLabel.setText("Таблица создана");
+    }//GEN-LAST:event_createTableButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        this.dispose();
+        FirstContentForm firstContent = new FirstContentForm();
+        firstContent.setVisible(true);
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    public static void Connect()
+    {
+        Connection conn = null;
+        Statement stmt = null;
+        try
+        {
+            Class.forName("org.sqlite.JDBC");
+            conn = DriverManager.getConnection("jdbc:sqlite:teachmodule.db");
+            resultLabel.setText("Создание таблицы...");
+            stmt = conn.createStatement();
+            String createAuthorTable = "CREATE TABLE IF NOT EXISTS Authors " + 
+                    "(AuthorID INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+                    "FirstName TEXT NOT NULL, " + 
+                    "LastName TEXT NOT NULL, " + 
+                    "BirthDate TEXT, " + 
+                    "Country TEXT NOT NULL)";
+            stmt.executeUpdate(createAuthorTable);
+//            String createBookTable = "CREATE TABLE IF NOT EXISTS Books " + 
+//                    "(BookID INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+//                    "Title TEXT NOT NULL, " + 
+//                    "AuthorID INTEGER, " +
+//                    "GenreID INTEGER, " + 
+//                    "PublisherID INTEGER, " + 
+//                    "YearPublished TEXT NOT NULL, " + 
+//                    "ISBN INTEGER NOT NULL, "
+//                    + "Quantity INTEGER, "
+//                    + "FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID), "
+//                    + "FOREIGN KEY (GenreID) REFERENCES Genres(GenreID), "
+//                    + "FOREIGN KEY (PublisherID) REFERENCES Publisher(PublisherID))";
+//            stmt.executeUpdate(createBookTable);
+            String createGenreTable = "CREATE TABLE IF NOT EXISTS Genres "
+                    + "(GenreID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "Name TEXT NOT NULL)";
+            stmt.executeUpdate(createGenreTable);
+            String createReaderTable = "CREATE TABLE IF NOT EXISTS Reader"
+                    + "(ReaderID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "FirstName TEXT NOT NULL, "
+                    + "LastName TEXT NOT NULL, "
+                    + "Adress TEXT NOT NULL, "
+                    + "PhoneNumber TEXT NOT NULL, "
+                    + "Email TEXT NOT NULL)";
+            stmt.executeUpdate(createReaderTable);
+            String bookLoanTable = "CREATE TABLE IF NOT EXISTS BookLoan "
+                    + "(LoanID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "BookID INTEGER, "
+                    + "ReaderID INTEGER, "
+                    + "LoanDate TEXT NOT NULL, "
+                    + "ReturnDate TEXT, "
+                    + "Status TEXT NOT NULL, "
+                    + "FOREIGN KEY (BookID) REFERENCES Books(BookID),"
+                    + "FOREIGN KEY (ReaderID) REFERENCES Readers(ReaderID) )";
+            stmt.executeUpdate(bookLoanTable);
+            String createPublisherTable = "CREATE TABLE IF NOT EXISTS Publisher"
+                    + "(PublisherID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "Name TEXT NOT NULL, "
+                    + "Adress TEXT NOT NULL, "
+                    + "PhoneNumber TEXT NOT NULL)";
+            stmt.executeUpdate(createPublisherTable);
+            stmt.close();
+            conn.close();
+        }
+        catch (Exception e)
+        {
+            resultLabel.setText("Ошибка, " + e.getClass().getName() + ": " + e.getMessage());
+            return;
+        }
+        resultLabel.setText("Таблица создана");
+    }
+    
+    public static void UseQuery()
+    {
+        String query = trySecondModuleTextArea.getText();
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:teachmodule.db");
+             Statement stmt = connection.createStatement()) 
+        {
+            boolean hasResult = stmt.execute(query);
+            StringBuilder output = new StringBuilder();
+            String toLabel;
+            
+            if (hasResult)
+            {
+                try (ResultSet resultSet = stmt.getResultSet())
+                {
+                    ResultSetMetaData metaData = resultSet.getMetaData();
+                    int columnCount = metaData.getColumnCount();
+                    
+                    for (int i = 1; i <= columnCount; i++)
+                    {
+                        output.append(metaData.getColumnName(i)).append("\t");
+                    }
+                    output.append("\n");
+                    
+                    while (resultSet.next())
+                    {
+                        for (int i = 1; i <= columnCount; i++)
+                        {
+                            output.append(resultSet.getString(i)).append("\t");
+                        }
+                        output.append("\n");
+                    }
+                }
+            }
+            else
+            {
+                int updateCount = stmt.getUpdateCount();
+                toLabel = "Таблица создана. Код ошибки: " + updateCount;
+                resultLabel.setText(toLabel);
+            }
+        }
+        catch (SQLException e)
+        {
+            resultLabel.setText("Ошибка: " + e.getMessage());
+        }
+        
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -112,9 +325,18 @@ public class SecondModuleForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
+    private javax.swing.JButton createTableButton;
     private javax.swing.JLabel createTableLabel;
     private javax.swing.JLabel firstTheoryLabel;
+    private javax.swing.JLabel insertSQLLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private static javax.swing.JLabel resultLabel;
+    private javax.swing.JLabel resultTextLabel;
+    private javax.swing.JButton toSecondTestButton;
+    private javax.swing.JLabel tryItLabel;
+    private javax.swing.JScrollPane trySecondModuleJScrollPane;
+    private static javax.swing.JTextArea trySecondModuleTextArea;
     // End of variables declaration//GEN-END:variables
 }

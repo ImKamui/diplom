@@ -61,7 +61,7 @@ public class PracticeForm extends javax.swing.JFrame {
         QueryScrollPane.setViewportView(QueryTextArea);
 
         createTableButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        createTableButton.setText("Создать таблицы");
+        createTableButton.setText("Создать базу данных");
         createTableButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createTableButtonActionPerformed(evt);
@@ -98,7 +98,7 @@ public class PracticeForm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(createTableButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(outputLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                        .addComponent(outputLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(useQueryButton))
                     .addGroup(layout.createSequentialGroup()
@@ -249,7 +249,7 @@ public class PracticeForm extends javax.swing.JFrame {
             else
             {
                 int updateCount = stmt.getUpdateCount();
-                toLabel = "Строк добавлено: " + updateCount;
+                toLabel = "Строк добавлено/удалено: " + updateCount;
                 outputLabel.setText(toLabel);
             }
             

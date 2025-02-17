@@ -65,7 +65,7 @@ public class FirstModuleForm extends javax.swing.JFrame {
         secondScreenshotLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/5287490674708576736.jpg"))); // NOI18N
 
         afterCreateDBLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        afterCreateDBLabel.setText("После создания базы данных можно увидеть сообщение о том, что команда сработала - CREATE DATABASE.");
+        afterCreateDBLabel.setText("<html>После создания базы данных можно увидеть сообщение о том, что команда сработала - CREATE DATABASE.\n<br>Пояснение: В данном приложении вам не нужно будет создавать базу данных. База данных будет сделана за вас, но таблицы создать всё-таки нужно будет.</html>");
 
         thridScreenLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         thridScreenLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/5287490674708576738.jpg"))); // NOI18N
@@ -98,17 +98,15 @@ public class FirstModuleForm extends javax.swing.JFrame {
             .addComponent(firstPictureLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(toCreateDBLabel, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(secondScreenshotLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(afterCreateDBLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(afterCreateDBLabel)
             .addComponent(thridScreenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(FirstModelPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(FirstModelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(afterSuccessCreateDBLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(FirstModelPanelLayout.createSequentialGroup()
-                        .addComponent(backToFirstPageButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nextModuleButton)
-                        .addContainerGap())))
+                .addComponent(backToFirstPageButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(nextModuleButton)
+                .addContainerGap())
+            .addComponent(afterSuccessCreateDBLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         FirstModelPanelLayout.setVerticalGroup(
             FirstModelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,12 +122,12 @@ public class FirstModuleForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(secondScreenshotLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(afterCreateDBLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(afterCreateDBLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(thridScreenLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(afterSuccessCreateDBLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FirstModelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backToFirstPageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nextModuleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
