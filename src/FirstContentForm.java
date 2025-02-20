@@ -28,6 +28,7 @@ public class FirstContentForm extends javax.swing.JFrame {
         backButton = new javax.swing.JButton();
         firstModuleButton = new javax.swing.JButton();
         secondModuleButton = new javax.swing.JButton();
+        thirdModuleButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(550, 150));
@@ -56,6 +57,14 @@ public class FirstContentForm extends javax.swing.JFrame {
             }
         });
 
+        thirdModuleButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        thirdModuleButton.setText("Модуль 3. Заполнение таблицы");
+        thirdModuleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                thirdModuleButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -64,10 +73,11 @@ public class FirstContentForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(firstModuleButton, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(secondModuleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(secondModuleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(thirdModuleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -79,7 +89,9 @@ public class FirstContentForm extends javax.swing.JFrame {
                 .addComponent(firstModuleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(secondModuleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(375, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(thirdModuleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(329, Short.MAX_VALUE))
         );
 
         pack();
@@ -102,6 +114,12 @@ public class FirstContentForm extends javax.swing.JFrame {
         SecondModuleForm secondModule = new SecondModuleForm();
         secondModule.setVisible(true);
     }//GEN-LAST:event_secondModuleButtonActionPerformed
+
+    private void thirdModuleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thirdModuleButtonActionPerformed
+        this.dispose();
+        ThirdModuleForm thirdModule = new ThirdModuleForm();
+        thirdModule.setVisible(true);
+    }//GEN-LAST:event_thirdModuleButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -142,5 +160,6 @@ public class FirstContentForm extends javax.swing.JFrame {
     private javax.swing.JButton backButton;
     private javax.swing.JButton firstModuleButton;
     private javax.swing.JButton secondModuleButton;
+    private javax.swing.JButton thirdModuleButton;
     // End of variables declaration//GEN-END:variables
 }

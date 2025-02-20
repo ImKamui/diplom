@@ -49,7 +49,6 @@ public class SecondModuleForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(500, 150));
-        setPreferredSize(new java.awt.Dimension(751, 510));
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(804, 1550));
 
@@ -87,6 +86,11 @@ public class SecondModuleForm extends javax.swing.JFrame {
 
         toSecondTestButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         toSecondTestButton.setText("Перейти к тесту по Модуль 2. Создание таблиц");
+        toSecondTestButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toSecondTestButtonActionPerformed(evt);
+            }
+        });
 
         backButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         backButton.setText("Вернуться к оглавлению");
@@ -161,9 +165,18 @@ public class SecondModuleForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTableButtonActionPerformed
-        Connect();
-        UseQuery();
-        resultLabel.setText("Таблица создана");
+        String flag = trySecondModuleTextArea.getText();
+        if (flag.isEmpty())
+        {
+            resultLabel.setText("Введите команду SQL из лекции");
+        }
+        else
+        {
+            Connect();
+            UseQuery();
+            resultLabel.setText("Таблица создана");
+        }
+        
     }//GEN-LAST:event_createTableButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -171,6 +184,12 @@ public class SecondModuleForm extends javax.swing.JFrame {
         FirstContentForm firstContent = new FirstContentForm();
         firstContent.setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void toSecondTestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toSecondTestButtonActionPerformed
+        this.dispose();
+        SecondTestForm secondTest = new SecondTestForm();
+        secondTest.setVisible(true);
+    }//GEN-LAST:event_toSecondTestButtonActionPerformed
 
     public static void Connect()
     {
@@ -238,7 +257,7 @@ public class SecondModuleForm extends javax.swing.JFrame {
             resultLabel.setText("Ошибка, " + e.getClass().getName() + ": " + e.getMessage());
             return;
         }
-        resultLabel.setText("Таблица создана");
+        
     }
     
     public static void UseQuery()
