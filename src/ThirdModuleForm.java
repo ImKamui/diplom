@@ -1,3 +1,11 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -14,6 +22,53 @@ public class ThirdModuleForm extends javax.swing.JFrame {
      */
     public ThirdModuleForm() {
         initComponents();
+    }
+    
+    public static void UseQuery()
+    {
+        String query = queryTextArea.getText();
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:teachmodule.db");
+             Statement stmt = connection.createStatement()) 
+        {
+            boolean hasResult = stmt.execute(query);
+            StringBuilder output = new StringBuilder();
+            String toLabel;
+            
+            if (hasResult)
+            {
+                try (ResultSet resultSet = stmt.getResultSet())
+                {
+                    ResultSetMetaData metaData = resultSet.getMetaData();
+                    int columnCount = metaData.getColumnCount();
+                    
+                    for (int i = 1; i <= columnCount; i++)
+                    {
+                        output.append(metaData.getColumnName(i)).append("\t");
+                    }
+                    output.append("\n");
+                    
+                    while (resultSet.next())
+                    {
+                        for (int i = 1; i <= columnCount; i++)
+                        {
+                            output.append(resultSet.getString(i)).append("\t");
+                        }
+                        output.append("\n");
+                    }
+                }
+            }
+            else
+            {
+                int updateCount = stmt.getUpdateCount();
+                toLabel = "Строк вставлено: " + updateCount;
+                resultLabel.setText(toLabel);
+            }
+        }
+        catch (SQLException e)
+        {
+            resultLabel.setText("Ошибка: " + e.getMessage());
+        }
+        
     }
 
     /**
@@ -32,16 +87,26 @@ public class ThirdModuleForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        queryTextArea = new javax.swing.JTextArea();
+        executeButton = new javax.swing.JButton();
+        resultLabel = new javax.swing.JLabel();
+        toTestButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(500, 150));
+        setResizable(false);
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(726, 1068));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(704, 1050));
 
         moduleNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         moduleNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         moduleNameLabel.setText("Модуль 3. Заполнение таблицы");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("<html>\nПосле того, как мы создали таблицу, нам необходимо её заполнить. \n<br>Ни одно предприятие или компания не работает с базой данных без данных.\n<br>Для того, чтобы оперировать данными, нам необходимо их заполнить.\n<br>В целях экономии времени приложение пересоздало таблицу, которую вы делали в предыдущем модуле с учётом всех связей, \n<br>а также дополнительно, помимо таблицы Books были созданы таблицы: \n<br><b>Authors, \n<br>Genres, \n<br>Reader, \n<br>Publisher. </b>\n<br>Мы будем работать с таблицей <b>Authors</b>.\n<br>Чтобы вставить в таблицу какие-либо данные используется команда: \n<br><b>INSERT INTO table (field1, field2, field3) VALUES (value1, value2, value3);</b>\n<br> где:\n<br>1. <b>INSERT INTO</b> - ключевые слова для вставки;\n<br>2. <b>table</b> - название таблицы;\n<br>3. <b>field1-3</b> - перечисление полей таблицы;\n<br>4. <b>VALUES</b> - связующая команда. Переводится как \"ЗНАЧЕНИЯ\";\n<br>5. <b>value1-3</b> - значения, которые необходимо вставить в таблицу.\n<br> Важно замечание! Значение для первичного ключа не вставляется в таблицу вручную, так как это происходит автоматически. Это называется <b>автоинкрементация</b>.\n</html>");
+        jLabel2.setText("<html>\nПосле того, как мы создали таблицу, нам необходимо её заполнить. \n<br>Ни одно предприятие или компания не работает с базой данных без данных.\n<br>Для того, чтобы оперировать данными, нам необходимо их заполнить.\n<br>В целях экономии времени приложение пересоздало таблицу, которую вы делали в предыдущем модуле с учётом всех связей, \n<br>а также дополнительно, помимо таблицы Books, были созданы таблицы: \n<br><b>Authors, \n<br>Genres, \n<br>Reader, \n<br>Publisher. </b>\n<br>Мы будем работать с таблицей <b>Authors</b>.\n<br>Чтобы вставить в таблицу какие-либо данные используется команда: \n<br><b>INSERT INTO table (field1, field2, field3) VALUES (value1, value2, value3);</b>\n<br> где:\n<br>1. <b>INSERT INTO</b> - ключевые слова для вставки;\n<br>2. <b>table</b> - название таблицы;\n<br>3. <b>field1-3</b> - перечисление полей таблицы;\n<br>4. <b>VALUES</b> - связующая команда. Переводится как \"ЗНАЧЕНИЯ\";\n<br>5. <b>value1-3</b> - значения, которые необходимо вставить в таблицу.\n<br> Важно замечание! Значение для первичного ключа не вставляется в таблицу вручную, так как это происходит автоматически. Это называется <b>автоинкременция</b>.\n</html>");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/photo_5312504461161262260_x.jpg"))); // NOI18N
@@ -49,22 +114,64 @@ public class ThirdModuleForm extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("<html>\nНа картинке выше можно увидеть структуру таблицы Authors.\n<br>Чтобы вставить данные в таблицу, необходимо применить команду INSERT INTO:\n<br><b>INSERT INTO Authors (FirstName, LastName, BirthDate, Country)\n<br>VALUES (\"Стивен\", \"Кинг\", \"21/09/1947\", \"USA\");</b>\n<br>Попробуйте написать свою команду:\n\n<html>");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        queryTextArea.setColumns(20);
+        queryTextArea.setRows(5);
+        jScrollPane2.setViewportView(queryTextArea);
+
+        executeButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        executeButton.setText("Выполнить");
+        executeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        executeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                executeButtonActionPerformed(evt);
+            }
+        });
+
+        resultLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        toTestButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        toTestButton.setText("Перейти  к тесту по Модуль 3. Заполнение таблицы");
+        toTestButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toTestButtonActionPerformed(evt);
+            }
+        });
+
+        backButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        backButton.setText("Назад");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resultLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(moduleNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(moduleNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(0, 49, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(executeButton))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(backButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(toTestButton)))
+                .addGap(25, 25, 25))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -78,7 +185,15 @@ public class ThirdModuleForm extends javax.swing.JFrame {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 515, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(resultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(executeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toTestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -87,15 +202,40 @@ public class ThirdModuleForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1122, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void executeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executeButtonActionPerformed
+        String flag = queryTextArea.getText();
+        if (flag.isEmpty())
+        {
+            resultLabel.setText("Введите команду SQL из лекции");
+        }
+        else
+        {
+            UseQuery();
+            resultLabel.setText("Строка вставлена");
+        }
+    }//GEN-LAST:event_executeButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        this.dispose();
+        FirstContentForm firstPage = new FirstContentForm();
+        firstPage.setVisible(true);
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    private void toTestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toTestButtonActionPerformed
+        this.dispose();
+        ThirdTestForm thirdTest = new ThirdTestForm();
+        thirdTest.setVisible(true);
+    }//GEN-LAST:event_toTestButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,13 +273,17 @@ public class ThirdModuleForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
+    private javax.swing.JButton executeButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel moduleNameLabel;
+    private static javax.swing.JTextArea queryTextArea;
+    private static javax.swing.JLabel resultLabel;
+    private javax.swing.JButton toTestButton;
     // End of variables declaration//GEN-END:variables
 }
