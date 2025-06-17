@@ -23,13 +23,13 @@ public class Conn {
             conn = DriverManager.getConnection("jdbc:sqlite:dbmsteach.db");
             outputLabel.setText("Создание базы данных...");
             stmt = conn.createStatement();
+            stmt.execute("PRAGMA foreign_keys = ON");
             String createAuthorTable = "CREATE TABLE IF NOT EXISTS Authors " + 
                     "(AuthorID INTEGER PRIMARY KEY AUTOINCREMENT, " + 
                     "FirstName TEXT NOT NULL, " + 
                     "LastName TEXT NOT NULL, " + 
                     "BirthDate TEXT, " + 
                     "Country TEXT NOT NULL)";
-            stmt.executeUpdate(createAuthorTable);
             String createBookTable = "CREATE TABLE IF NOT EXISTS Books " + 
                     "(BookID INTEGER PRIMARY KEY AUTOINCREMENT, " + 
                     "Title TEXT NOT NULL, " + 
@@ -39,14 +39,12 @@ public class Conn {
                     "YearPublished TEXT NOT NULL, " + 
                     "ISBN INTEGER NOT NULL, "
                     + "Quantity INTEGER, "
-                    + "FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID), "
-                    + "FOREIGN KEY (GenreID) REFERENCES Genres(GenreID), "
+                    + "FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID) ON DELETE CASCADE, "
+                    + "FOREIGN KEY (GenreID) REFERENCES Genres(GenreID) ON DELETE SET NULL, "
                     + "FOREIGN KEY (PublisherID) REFERENCES Publisher(PublisherID))";
-            stmt.executeUpdate(createBookTable);
             String createGenreTable = "CREATE TABLE IF NOT EXISTS Genres "
                     + "(GenreID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "Name TEXT NOT NULL)";
-            stmt.executeUpdate(createGenreTable);
             String createReaderTable = "CREATE TABLE IF NOT EXISTS Reader"
                     + "(ReaderID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "FirstName TEXT NOT NULL, "
@@ -54,7 +52,6 @@ public class Conn {
                     + "Adress TEXT NOT NULL, "
                     + "PhoneNumber TEXT NOT NULL, "
                     + "Email TEXT NOT NULL)";
-            stmt.executeUpdate(createReaderTable);
             String bookLoanTable = "CREATE TABLE IF NOT EXISTS BookLoan "
                     + "(LoanID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "BookID INTEGER, "
@@ -62,21 +59,27 @@ public class Conn {
                     + "LoanDate TEXT NOT NULL, "
                     + "ReturnDate TEXT, "
                     + "Status TEXT NOT NULL, "
-                    + "FOREIGN KEY (BookID) REFERENCES Books(BookID),"
-                    + "FOREIGN KEY (ReaderID) REFERENCES Readers(ReaderID) )";
-            stmt.executeUpdate(bookLoanTable);
+                    + "FOREIGN KEY (BookID) REFERENCES Books(BookID)ON DELETE CASCADE,"
+                    + "FOREIGN KEY (ReaderID) REFERENCES Reader(ReaderID) )";
             String createPublisherTable = "CREATE TABLE IF NOT EXISTS Publisher"
                     + "(PublisherID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "Name TEXT NOT NULL, "
                     + "Adress TEXT NOT NULL, "
                     + "PhoneNumber TEXT NOT NULL)";
-            stmt.executeUpdate(createPublisherTable);
+            stmt.executeUpdate(createAuthorTable);    // Независимая
+            stmt.executeUpdate(createGenreTable);     // Независимая
+            stmt.executeUpdate(createPublisherTable); // Независимая
+            stmt.executeUpdate(createReaderTable);    // Независимая (Reader)
+            stmt.executeUpdate(createBookTable);      // Зависит от Authors, Genres, Publisher
+            stmt.executeUpdate(bookLoanTable);        // Зависит от Books, Reader
             stmt.close();
             conn.close();
         }
         catch (Exception e)
         {
-            outputLabel.setText("Ошибка, " + e.getClass().getName() + ": " + e.getMessage());
+            String error = e.getMessage();
+            error = error.replace("SQLITE", "PG");
+            outputLabel.setText("Ошибка, " + e.getClass().getName() + ": " + error);
             return;
         }
         outputLabel.setText("База данных создана");

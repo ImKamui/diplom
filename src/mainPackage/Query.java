@@ -24,6 +24,7 @@ public class Query {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:dbmsteach.db");
              Statement stmt = connection.createStatement()) 
         {
+            stmt.execute("PRAGMA foreign_keys = ON");
             boolean hasResult = stmt.execute(query);
             StringBuilder output = new StringBuilder();
             String toLabel;
@@ -62,7 +63,13 @@ public class Query {
         }
         catch (SQLException e)
         {
-            resultQueryTextArea.setText("Ошибка: " + e.getMessage());
+            String error = e.getMessage();
+            error = error.replace("SQLITE", "PG").replace("SQL error or missing database", "ошибка синтаксиса")
+                    .replace("no such", "нет").replace("column", "колонки").replace("table", "таблицы")
+                    .replace("near", "рядом c").replace("syntax error", "синтаксис нарушен")
+                    .replace("A foreign key constraint failed", "Ограничение внешнего ключа нарушено")
+                    .replace("FOREIGN KEY constraint failed", "ограничение ВНЕШНЕГО КЛЮЧА нарушено");
+            resultQueryTextArea.setText("Ошибка: " + error);
         }
         
     }
@@ -72,6 +79,7 @@ public class Query {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:dbmsteach.db");
              Statement stmt = connection.createStatement()) 
         {
+            stmt.execute("PRAGMA foreign_keys = ON");
             boolean hasResult = stmt.execute(query);
             StringBuilder output = new StringBuilder();
             String toLabel;
@@ -108,7 +116,13 @@ public class Query {
         }
         catch (SQLException e)
         {
-            outputLabel.setText("Ошибка: " + e.getMessage());
+            String error = e.getMessage();
+            error = error.replace("SQLITE", "PG").replace("SQL error or missing database", "ошибка синтаксиса")
+                    .replace("no such", "нет").replace("column", "колонки").replace("table", "таблицы")
+                    .replace("near", "рядом c").replace("syntax error", "синтаксис нарушен")
+                    .replace("A foreign key constraint failed", "Ограничение внешнего ключа нарушено")
+                    .replace("FOREIGN KEY constraint failed", "ограничение ВНЕШНЕГО КЛЮЧА нарушено");
+            outputLabel.setText("Ошибка: " + error);
         }
         
     }

@@ -22,55 +22,11 @@ public class ThirdModuleForm extends javax.swing.JFrame {
     /**
      * Creates new form ThirdModuleForm
      */
+    
+    
+    Query query = new Query();
     public ThirdModuleForm() {
         initComponents();
-    }
-    
-    public static void UseQuery()
-    {
-        String query = queryTextArea.getText();
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:teachmodule.db");
-             Statement stmt = connection.createStatement()) 
-        {
-            boolean hasResult = stmt.execute(query);
-            StringBuilder output = new StringBuilder();
-            String toLabel;
-            
-            if (hasResult)
-            {
-                try (ResultSet resultSet = stmt.getResultSet())
-                {
-                    ResultSetMetaData metaData = resultSet.getMetaData();
-                    int columnCount = metaData.getColumnCount();
-                    
-                    for (int i = 1; i <= columnCount; i++)
-                    {
-                        output.append(metaData.getColumnName(i)).append("\t");
-                    }
-                    output.append("\n");
-                    
-                    while (resultSet.next())
-                    {
-                        for (int i = 1; i <= columnCount; i++)
-                        {
-                            output.append(resultSet.getString(i)).append("\t");
-                        }
-                        output.append("\n");
-                    }
-                }
-            }
-            else
-            {
-                int updateCount = stmt.getUpdateCount();
-                toLabel = "Строк вставлено: " + updateCount;
-                resultLabel.setText(toLabel);
-            }
-        }
-        catch (SQLException e)
-        {
-            resultLabel.setText("Ошибка: " + e.getMessage());
-        }
-        
     }
 
     /**
@@ -222,8 +178,7 @@ public class ThirdModuleForm extends javax.swing.JFrame {
         }
         else
         {
-            UseQuery();
-            resultLabel.setText("Строка вставлена");
+            query.UseQuery(queryTextArea, resultLabel);
         }
     }//GEN-LAST:event_executeButtonActionPerformed
 

@@ -172,6 +172,7 @@ public class chooseRoleForm extends javax.swing.JFrame {
             "  content_image blob," +
             "  theme_id INTEGER NOT NULL," +
             "  teacher_id INTEGER NOT NULL," +
+            "  is_title INTEGER DEFAULT 0," +
             "    FOREIGN KEY (theme_id, teacher_id)" +
             "    REFERENCES Themes (theme_id, teacher_id)" +
             ")";

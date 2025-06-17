@@ -4,9 +4,19 @@
  */
 package mainPackage;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Point;
+import java.awt.FontMetrics;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,13 +25,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -33,7 +51,8 @@ public class teachersForm extends javax.swing.JFrame {
     Font font = new Font("Segoe UI", Font.PLAIN, 14);
     final int[] cY = {10};
     final int vGap = 10;
-    final int defHeight = 30;
+    final int defHeight = 40;
+    ArrayList<ContentItem> contents = new ArrayList<>();
     /**
      * Creates new form teachersForm
      */
@@ -127,11 +146,8 @@ public class teachersForm extends javax.swing.JFrame {
     
     
     private void showTeacherButtons() {
-    authForm auth = new authForm();
-    String login = auth.getLogin();
-    String query = "SELECT teacher_lastname, teacher_login FROM Teachers WHERE is_visible = 1";
-    String curUser = auth.getFlag();
-    int curUserID = auth.getTeacherID();
+    String query = "SELECT teacher_lastname, teacher_login, teacher_initials FROM Teachers WHERE is_visible = 1";
+    Modules modules = new Modules();
     
     
     
@@ -154,11 +170,12 @@ public class teachersForm extends javax.swing.JFrame {
         while (rs.next()) {
             String teacherLogin = rs.getString("teacher_login");
             String lastName = rs.getString("teacher_lastname");
-            teachers.add(new TeacherData(teacherLogin, lastName));
+            String teacherInitials = rs.getString("teacher_initials");
+            teachers.add(new TeacherData(teacherLogin, lastName, teacherInitials));
         }
         for (TeacherData teacher : teachers)
         {
-            JButton btn = new JButton(teacher.lastName);
+            JButton btn = new JButton(teacher.lastName + " " + teacher.teacherInitials);
             btn.setBounds(curX, curY, btnWidth, btnHeight);
             if (curY + btnHeight > formH - 50)
             {
@@ -174,6 +191,11 @@ public class teachersForm extends javax.swing.JFrame {
             getContentPane().add(btn);
             curY += btnHeight + verticalGap;
             btn.addActionListener((e) -> {
+                authForm auth = new authForm();
+                String login = auth.getLogin();
+                String curUser = auth.getFlag();
+                int curUserID = auth.getTeacherID();
+                boolean isTeacher = !login.isEmpty() && teacher.teacherLogin.equals(curUser);
                 JFrame teacherFrame = new JFrame();
                 teacherFrame.setSize(515, 600);
                 JPanel mainPanel = new JPanel();
@@ -191,21 +213,12 @@ public class teachersForm extends javax.swing.JFrame {
                     this.setVisible(true);
                 });
                 mainPanel.add(backsButton);
-                boolean isTeacher = !login.isEmpty() && teacher.teacherLogin.equals(curUser);
-                String getTheme;
-                if (isTeacher)
-                {
-                    getTheme = "SELECT theme_name FROM Themes WHERE theme_owner = ?";
-                }
-                else
-                {
-                    getTheme = "SELECT theme_name FROM Themes WHERE teacher_login = ?";
-                }
+                String getTheme = "SELECT theme_name FROM Themes WHERE teacher_login = ?";
                 List<Themes> themes = new ArrayList<>();
                 try (Connection newConn = DriverManager.getConnection(DB_URL);
                         PreparedStatement newStmt = newConn.prepareStatement(getTheme))
                 {
-                    newStmt.setString(1, login);
+                    newStmt.setString(1, teacher.teacherLogin);
                     ResultSet newRs = newStmt.executeQuery();
                     while (newRs.next())
                     {
@@ -232,147 +245,414 @@ public class teachersForm extends javax.swing.JFrame {
                         module.setBounds(10, mCurY, mBtnWidth, mBtnHeight);
                         mainPanel.add(module);
                         mCurY += mBtnHeight + mVerticalGap;
+                        String getContent = "SELECT content_text, content_image, is_title FROM Content " +
+                                            "WHERE theme_id = ? ORDER BY content_id";
+                        module.addActionListener((evnt) -> {
+                            try {
+
+                                List<ModuleContent> contentx = modules.getModuleContent(theme.theme_name, teacher.teacherLogin);
+                                
+//                                int currentThemeId = getThemeId(msCon, theme.theme_name, teacher.teacherLogin);
+//                                msStmt.setInt(1, currentThemeId);
+//                                ResultSet msRs = msStmt.executeQuery();
+
+                                int[] cY = {10};
+                                
+                                JFrame contentFrame = new JFrame("Модуль: " + theme.theme_name);
+                                contentFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                                contentFrame.setSize(515, 600); // Увеличил размер окна
+                                contentFrame.setLocationRelativeTo(null);
+                                contentFrame.setResizable(false);
+
+                                
+                                JPanel mainsPanel = new JPanel();
+                                mainsPanel.setLayout(null);
+                                
+                                JScrollPane scrollPane = new JScrollPane(mainsPanel);
+
+                                contentFrame.add(scrollPane);
+                                JButton backBtn = new JButton("Назад");
+                                backBtn.setFont(font);
+                                backBtn.setBounds(10, 10, 80, 40);
+                                backBtn.addActionListener(ev -> {
+                                    contentFrame.dispose();
+                                    teacherFrame.setVisible(true);
+                                });
+                                mainsPanel.add(backBtn);
+
+                                int contentWidth = contentFrame.getWidth() - 50;
+                                int maxImageWidth = 700;
+                                int maxImageHeight = 300;
+
+                                    int sX = 10;
+                                    int cX = sX;
+                                    
+                                for (ModuleContent content : contentx)
+                                {
+                                    if (content.isTitle) {
+                                        // Заголовок (центрированный)
+                                        JLabel titleLabel = new JLabel(content.text);
+                                        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+                                        titleLabel.setBounds(cX, cY[0], 500, defHeight);
+                                        titleLabel.setVerticalAlignment(0);
+                                        titleLabel.setHorizontalAlignment(0);
+                                        titleLabel.setHorizontalTextPosition(0);
+                                        mainsPanel.add(titleLabel);
+                                        cY[0] += defHeight + vGap;
+                                    } else {
+                                        if (content.text != null && !content.text.isEmpty()) {
+                                
+                                            String htmlText = "<html><div style='width:" + (contentWidth - 80) + "px;'>" + 
+                                            content.text.replace("\n", "<br/>") + "</div></html>";
+
+                                            JLabel contentLabel = new JLabel();
+                                            contentLabel.setText(htmlText);
+                                            contentLabel.setFont(font);
+
+                                            FontMetrics fm = contentLabel.getFontMetrics(font);
+                                            int textHeight = calculateTextHeight(fm, content.text, contentWidth);
+
+                                            contentLabel.setBounds(cX, cY[0], contentFrame.getWidth(), textHeight);
+                                            mainsPanel.add(contentLabel);
+                                            cY[0] += textHeight + vGap - 10;
+                                            }
+
+                                        if (content.imageBytes != null && content.imageBytes.length > 0) {
+                                            try {
+                                                ImageIcon imageIcon = new ImageIcon(content.imageBytes);
+                                                Image image = imageIcon.getImage();
+
+                                                double ratio = (double)image.getHeight(null) / (double)image.getWidth(null);
+                                                int width = Math.min(image.getWidth(null), maxImageWidth);
+                                                int height = (int)(width * ratio);
+
+                                                if (height > maxImageHeight) {
+                                                    height = maxImageHeight;
+                                                    width = (int)(height / ratio);
+                                                }
+
+                                                Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+                                                JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
+                                                imageLabel.setHorizontalAlignment(0);
+                                                imageLabel.setVerticalAlignment(0);
+                                                imageLabel.setHorizontalTextPosition(0);
+                                                imageLabel.setBounds(cX, cY[0], width, height);
+
+                                                mainsPanel.add(imageLabel);
+                                                cY[0] += height + vGap;
+                                            } catch (Exception ex) {
+                                                ex.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                    
+                                    contentFrame.revalidate();
+                                    contentFrame.repaint();
+                                }
+
+                                contentFrame.setVisible(true);
+                                teacherFrame.dispose();
+
+                            } catch (SQLException exc) {
+                                exc.printStackTrace();
+                            }
+                        });
                     }
                     revalidate();
+                    //String teacherLogin = teacher.teacherLogin;
+                if (isTeacher)
+                {
+                        //Main module form
+
+                        JButton newModule = new JButton("Создать новый модуль");
+                        newModule.setFont(font);
+                        newModule.setBounds(10, 515, 250, 40);
+                        mainPanel.add(newModule);
+                        newModule.addActionListener((evnt) -> {
+                            JFrame newModuleForm = new JFrame();
+                            newModuleForm.setResizable(false);
+                            newModuleForm.setSize(515, 600);
+                            newModuleForm.setLocation(740, 150);
+                            newModuleForm.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+                            JPanel modulePanel = new JPanel(null);
+                            newModuleForm.add(modulePanel);
+
+                            //Edit module form
+
+                            JFrame editorForm = new JFrame();
+                            editorForm.setSize(650, 650);
+                            editorForm.setLocation(100, 150);
+                            JPanel editorPanel = new JPanel(null);
+                            editorForm.add(editorPanel);
+                            editorForm.setResizable(false);
+
+                            //Module name
+                            JLabel mName = new JLabel();
+                            mName.setText("Введите название модуля:");
+                            mName.setBounds(10, 5, 200, 40);
+                            mName.setFont(font);
+                            editorPanel.add(mName);
+
+                            JTextField mNameText = new JTextField();
+                            mNameText.setBounds(10, 35, 200, 30);
+                            mNameText.setFont(font);
+                            editorPanel.add(mNameText);
+
+
+                            //Theme name
+                            JLabel titleThemeLabel = new JLabel();
+                            titleThemeLabel.setText("Заголовок:");
+                            titleThemeLabel.setFont(font);
+                            titleThemeLabel.setBounds(10, 55, 150, 40);
+                            editorPanel.add(titleThemeLabel);
+
+                            JTextField titleTextField = new JTextField();
+                            titleTextField.setFont(font);
+                            titleTextField.setBounds(10, 85, 200, 30);
+                            editorPanel.add(titleTextField);
+
+
+                            //Default parameters
+                            int sX = 10;
+                            int cX = sX;
+
+                            //Title
+                            JButton addTitleButton = new JButton("Добавить заголовок");
+                            addTitleButton.setBounds(210, 85, 200, 30);
+                            addTitleButton.setFont(font);
+                            editorPanel.add(addTitleButton);
+                            addTitleButton.addActionListener((evn) -> {
+                                String titleText = titleTextField.getText();
+                                if (!titleText.isEmpty())
+                                {
+                                    ContentItem titleItem = new ContentItem(titleText, ContentItem.ContentType.TITLE);
+                                    contents.add(titleItem);
+                                }
+                                JLabel title = new JLabel();
+                                title.setFont(new Font("Segoe UI", Font.BOLD, 18));
+                                title.setHorizontalAlignment(0);
+                                title.setVerticalAlignment(0);
+                                title.setHorizontalTextPosition(0);
+                                title.setText(titleText);
+                                title.setBounds(cX, cY[0], 500, defHeight);
+                                modulePanel.add(title);
+
+                                cY[0] += defHeight + vGap;
+                                newModuleForm.revalidate();
+                                newModuleForm.repaint();
+
+                            });
+
+                            //Content
+                            JLabel content = new JLabel();
+                            content.setText("Введите текст или выберите файл:");
+                            content.setFont(font);
+                            content.setBounds(10, 105, 250, 40);
+                            editorPanel.add(content);
+
+                            JCheckBox isText = new JCheckBox();
+                            isText.setText("Текст");
+                            JTextArea contentArea = new JTextArea();
+                            contentArea.setLineWrap(true);
+                            contentArea.setWrapStyleWord(true);
+                            JTextField fileField = new JTextField();
+                            contentArea.setFont(font);
+                            contentArea.setVisible(false);
+                            contentArea.setBounds(10, 155, 600, 250);
+                            editorPanel.add(contentArea);
+                            fileField.setFont(font);
+                            fileField.setBounds(10, 155, 200, 30);
+                            editorPanel.add(fileField);
+                            JButton addContent = new JButton("Добавить контент");
+                            addContent.setFont(font);
+                            addContent.setBounds(10, 190, 150, 30);
+                            editorPanel.add(addContent);
+                            JButton fileReview = new JButton("Обзор");
+                            fileReview.setBounds(220, 155, 150, 30);
+                            fileReview.setFont(font);
+                            fileReview.addActionListener((evn) -> {
+                                JFileChooser fileChooser = new JFileChooser();
+                                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                                fileChooser.setFileFilter(new FileNameExtensionFilter("Любое изображение", "png", "jpg", "jpeg"));
+                                fileChooser.setMultiSelectionEnabled(false);
+                                fileChooser.showOpenDialog(null);
+                                File f = fileChooser.getSelectedFile();
+                                StringBuilder fileName = new StringBuilder();
+                                fileName.append(f.getAbsolutePath());
+                                fileField.setText(fileName.toString().trim());
+                            });
+                            editorPanel.add(fileReview);
+                            ActionListener[] contentListeners = new ActionListener[2];
+                            contentListeners[0] = (ev) -> {
+                                
+                                String contentText = contentArea.getText();
+                                if (!contentText.isEmpty())
+                                {
+                                    ContentItem textItem = new ContentItem(contentText, ContentItem.ContentType.TEXT);
+                                    contents.add(textItem);
+                                }
+                                
+                                JLabel newContent = new JLabel("<html><div style='width:" + (modulePanel.getWidth() - 110) + "px;"
+                                        + "text-align:left'>" + contentText.replace("\n", "<br/>") + "</div></html>");
+                                newContent.setFont(font);
+                                newContent.setBounds(cX, cY[0], modulePanel.getWidth(), defHeight + 15);
+                                modulePanel.add(newContent);
+
+                                cY[0] += defHeight + vGap;
+                                newModuleForm.revalidate();
+                                newModuleForm.repaint();
+                            };
+                            contentListeners[1] = (ev) -> {
+                                int maxImageWidth = 700;
+                                int maxImageHeight = 300;
+                                JLabel newContent = new JLabel();
+                                String pathToPic = fileField.getText();
+                                if (!pathToPic.isEmpty())
+                                {
+                                    File imageFile = new File(pathToPic);
+                                    ContentItem imageItem = new ContentItem(imageFile);
+                                    contents.add(imageItem);
+                                }
+                                ImageIcon icon = new ImageIcon(pathToPic);
+                                Image image = icon.getImage();
+                                double ratio = (double)image.getHeight(null) / (double)image.getWidth(null);
+                                int width = Math.min(image.getWidth(null), maxImageWidth);
+                                int height = (int)(width * ratio);
+
+                                if (height > maxImageHeight) {
+                                    height = maxImageHeight;
+                                    width = (int)(height / ratio);
+                                }
+
+                                Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                                newContent.setIcon(new ImageIcon(scaledImage));
+                                newContent.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+                                newContent.setVerticalAlignment(0);
+                                newContent.setHorizontalTextPosition(0);
+                                newContent.setBounds(cX, cY[0], width, height);
+                                modulePanel.add(newContent);
+
+                                cY[0] += height + vGap - 15;
+                                newModuleForm.revalidate();
+                                newModuleForm.repaint();
+                            };
+                            addContent.addActionListener(contentListeners[1]);
+
+                            isText.addItemListener((ls) -> {
+                                if (ls.getStateChange() == ItemEvent.SELECTED) {
+                                    fileReview.setVisible(false);
+                                    fileField.setVisible(false);
+                                    contentArea.setVisible(true);
+                                    addContent.setBounds(10, 410, 150, 30);
+                                    for (ActionListener al : addContent.getActionListeners()) {
+                                        addContent.removeActionListener(al);
+                                    }
+                                    addContent.addActionListener(contentListeners[0]);
+                                    fileField.setText("");
+                                } 
+                                else 
+                                {
+                                    fileReview.setVisible(true);
+                                    fileField.setVisible(true);
+                                    contentArea.setVisible(false);
+                                    addContent.setBounds(10, 190, 150, 30);
+                                    for (ActionListener al : addContent.getActionListeners()) {
+                                        addContent.removeActionListener(al);
+                                    }
+                                    addContent.addActionListener(contentListeners[1]);
+                                    contentArea.setText("");
+                                }
+                                editorForm.revalidate();
+                                editorForm.repaint();
+                            });
+                            isText.setBounds(10, 125, 100, 40);
+                            editorPanel.add(isText);
+
+
+                            JButton createModule = new JButton("Создать модуль");
+                            createModule.setBounds(10, 570, 150, 40);
+                            createModule.setFont(font);
+                            createModule.addActionListener((evn) -> {
+                                Connection mConn = null;
+                                try {
+                                    mConn = DriverManager.getConnection(DB_URL + "?busy_timeout=5000");
+                                    mConn.setAutoCommit(false);
+                                    int themeID = modules.AddNewTheme(mConn, mNameText.getText(), curUser, curUserID, curUser);
+                                    if (themeID == -1) {
+                                        throw new SQLException("Не удалось получить ID темы");
+                                    }
+
+                                    for (ContentItem item : contents)
+                                    {
+                                        switch (item.getType())
+                                        {
+                                            case TITLE:
+                                                modules.AddNewModule(mConn, themeID, item.getText(), curUserID, 1);
+                                                break;
+                                            case TEXT:
+                                                modules.AddNewModule(mConn, themeID, item.getText(), curUserID, 0);
+                                                break;
+                                            case IMAGE:
+                                                modules.AddNewModule(mConn, themeID, item.getImageFile(), curUserID, 0);
+                                                break;
+                                        }
+                                        
+                                    }
+                                    cY[0] = 10;
+                                    contents.clear();
+                                    mConn.commit();
+
+
+                                } catch (Exception ex) {
+                                    try {
+                                        if (mConn != null) {
+                                            mConn.rollback();
+                                        }
+                                    } catch (SQLException exc) {
+                                        exc.printStackTrace();
+                                    }
+
+                                    ex.printStackTrace();
+                                    JOptionPane.showMessageDialog(editorForm, 
+                                        "Ошибка при сохранении: " + ex.getMessage(), 
+                                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                                } finally {
+                                    try {
+                                        if (mConn != null) {
+                                            mConn.setAutoCommit(true);
+                                            mConn.close();
+                                        }
+                                    } catch (SQLException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                }
+                                teacherFrame.revalidate();
+                                teacherFrame.repaint();
+                            });
+                            editorPanel.add(createModule);
+
+                            JButton back = new JButton("Назад");
+                            back.setBounds(475, 570, 150, 40);
+                            back.setFont(font);
+                            back.addActionListener((ev) -> {
+                                editorForm.dispose();
+                                newModuleForm.dispose();
+                                teacherFrame.setVisible(true);
+                                contents.clear();
+                                cY[0] = 10;
+                            });
+                            editorPanel.add(back);
+
+                            teacherFrame.dispose();
+                            newModuleForm.setVisible(true);
+                            editorForm.setVisible(true);
+                        });
+                    }
                 }
                 catch (Exception ex)
                 {
                     ex.printStackTrace();
-                }
-                String teacherLogin = teacher.teacherLogin;
-                if (isTeacher)
-                {
-                    //Main module form
-                    
-                    JButton newModule = new JButton("Создать новый модуль");
-                    newModule.setFont(font);
-                    newModule.setBounds(10, 515, 250, 40);
-                    mainPanel.add(newModule);
-                    newModule.addActionListener((evnt) -> {
-                        JFrame newModuleForm = new JFrame();
-                        newModuleForm.setSize(515, 600);
-                        newModuleForm.setLocation(740, 150);
-                        newModuleForm.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-                        JPanel modulePanel = new JPanel(null);
-                        newModuleForm.add(modulePanel);
-                        
-                        //Edit module form
-                        
-                        JFrame editorForm = new JFrame();
-                        editorForm.setSize(650, 650);
-                        editorForm.setLocation(100, 150);
-                        JPanel editorPanel = new JPanel(null);
-                        editorForm.add(editorPanel);
-                        
-                        //Module name
-                        JLabel mName = new JLabel();
-                        mName.setText("Введите название модуля:");
-                        mName.setBounds(10, 5, 200, 40);
-                        mName.setFont(font);
-                        editorPanel.add(mName);
-                        
-                        JTextField mNameText = new JTextField();
-                        mNameText.setBounds(10, 35, 200, 30);
-                        mNameText.setFont(font);
-                        editorPanel.add(mNameText);
-                        
-                        
-                        //Theme name
-                        JLabel titleThemeLabel = new JLabel();
-                        titleThemeLabel.setText("Заголовок:");
-                        titleThemeLabel.setFont(font);
-                        titleThemeLabel.setBounds(220, 5, 150, 40);
-                        editorPanel.add(titleThemeLabel);
-                        
-                        JTextField titleTextField = new JTextField();
-                        titleTextField.setFont(font);
-                        titleTextField.setBounds(220, 35, 200, 30);
-                        editorPanel.add(titleTextField);
-                        
-                        
-                        //Default parameters
-                        int sX = 10;
-                        int sY = 10;
-                        int cX = sX;
-                        
-                        
-                        JButton addTitleButton = new JButton("Добавить заголовок");
-                        addTitleButton.setBounds(430, 35, 200, 30);
-                        addTitleButton.setFont(font);
-                        editorPanel.add(addTitleButton);
-                        addTitleButton.addActionListener((evn) -> {
-                            JLabel title = new JLabel();
-                            title.setFont(new Font("Segoe UI", Font.BOLD, 18));
-                            title.setHorizontalAlignment(0);
-                            title.setVerticalAlignment(0);
-                            title.setHorizontalTextPosition(0);
-                            title.setText(titleTextField.getText());
-                            title.setBounds(cX, cY[0], 500, defHeight);
-                            modulePanel.add(title);
-                            
-                            cY[0] += defHeight + vGap;
-                            newModuleForm.revalidate();
-                            newModuleForm.repaint();
-                        });
-                        
-                        //Content
-                        JLabel content = new JLabel();
-                        content.setText("Введите текст или выберите файл:");
-                        content.setFont(font);
-                        content.setBounds(10, 55, 250, 40);
-                        editorPanel.add(content);
-                        
-                        JCheckBox isText = new JCheckBox();
-                        isText.setText("Текст");
-                        JTextArea contentArea = new JTextArea();
-                        JTextField fileField = new JTextField();
-                        contentArea.setFont(font);
-                        contentArea.setVisible(false);
-                        contentArea.setBounds(10, 115, 600, 250);
-                        editorPanel.add(contentArea);
-                        fileField.setFont(font);
-                        fileField.setBounds(10, 115, 200, 30);
-                        editorPanel.add(fileField);
-                        JButton addContent = new JButton("Добавить контент");
-                        addContent.setFont(font);
-                        addContent.setBounds(10, 150, 150, 30);
-                        editorPanel.add(addContent);
-                        isText.addItemListener((ls) -> {
-                            if (ls.getStateChange() == ItemEvent.SELECTED)
-                            {
-                                fileField.setVisible(false);
-                                contentArea.setVisible(true);
-                                addContent.setBounds(10, 370, 150, 30);
-                                addContent.addActionListener((ev) -> {
-                                    JLabel newContent = new JLabel();
-                                    newContent.setFont(font);
-                                    newContent.setBounds(cX, cY[0], modulePanel.getWidth(), defHeight + 50);
-                                    newContent.setText(contentArea.getText());
-                                    modulePanel.add(newContent);
-                                    
-                                    cY[0] += defHeight + vGap + 20;
-                                    newModuleForm.revalidate();
-                                    newModuleForm.repaint();
-                                });
-                            }
-                            else
-                            {
-                                fileField.setVisible(true);
-                                contentArea.setVisible(false);
-                                addContent.setBounds(10, 150, 150, 30);
-                            }
-                            editorForm.revalidate();
-                            editorForm.repaint();
-                        });
-                        isText.setBounds(10, 85, 100, 40);
-                        editorPanel.add(isText);
-                        
-                        
-                        
-                        teacherFrame.dispose();
-                        newModuleForm.setVisible(true);
-                        editorForm.setVisible(true);
-                    });
                 }
                 
             });
@@ -384,6 +664,19 @@ public class teachersForm extends javax.swing.JFrame {
     
     
 }
+    
+    private int calculateTextHeight(FontMetrics fm, String text, int width) {
+        String[] lines = text.split("\n");
+        int totalHeight = 0;
+
+        for (String line : lines) {
+            int lineWidth = fm.stringWidth(line);
+            int lineCount = (int) Math.ceil((double)lineWidth / width);
+            totalHeight += lineCount * fm.getHeight();
+        }
+
+        return totalHeight;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;

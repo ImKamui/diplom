@@ -11,9 +11,11 @@ package mainPackage;
 public class TeacherData {
     String teacherLogin;
     String lastName;
+    String teacherInitials;
     
-    TeacherData(String teacherLogin, String lastName) {
+    TeacherData(String teacherLogin, String lastName, String teacherInitials) {
         this.teacherLogin = teacherLogin;
         this.lastName = lastName;
+        this.teacherInitials = teacherInitials;
     }
 }

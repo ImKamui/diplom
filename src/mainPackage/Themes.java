@@ -10,9 +10,15 @@ package mainPackage;
  */
 public class Themes {
     String theme_name;
+    int theme_id;
     
     Themes(String theme_name)
     {
         this.theme_name = theme_name;
+        
+    }
+    Themes (int theme_id)
+    {
+        this.theme_id = theme_id;
     }
 }
